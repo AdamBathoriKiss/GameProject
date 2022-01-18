@@ -16,18 +16,29 @@ function drawLine(){
   ctx.stroke();
 }
 
-  // Update Canvas function, where we put all the things, what should works dinamically on our page
+
+// Few global variables 
+
+let frame = 0;
+let score = 0;
+let enemy = [];
+let shoot = [];
+
+
+// Update Canvas function, where we put all the things, what should works dinamically on our page
 
   function updateCanvas() {
     ctx.clearRect(0, 0, 1400, 800);
     drawLine();
     cat.draw();
-    enemy.draw();
-    enemy.newPos();
+    frame++;
+    creatingEnemy ();
+ 
   }
 
 
 setInterval(updateCanvas, 1000/60);
+
 
 //Pictures for the game
 
@@ -45,10 +56,6 @@ class Character {
         this.y = y;
         this.speedX = 0;
         this.charimage = charimage;
-        charimage.addEventListener('load', () => {
-          this.charimage = charimage;
-          this.draw();
-        })
     }
 
     moveUp() {
@@ -59,14 +66,14 @@ class Character {
     }
 
     moveRight() {
-      this.x -= 10;
+      this.x -= 2;
     }
 
       draw() { 
         ctx.drawImage(this.charimage, this.x, this.y, 90, 90);
         ctx.shadowColor = 'black';
         ctx.shadowBlur = 10;
-      
+       
       }
 
       newPos(){
@@ -74,26 +81,53 @@ class Character {
         this.x -= this.speedX;
         }
       
-
       }
 }
 
+//Creating the CharCat for cat, because it will contains extra features
 
 class CharCat extends Character {
 
-  constructor(x,y,charimage,bullcont){
+  constructor(x,y,charimage){
       super(x,y,charimage);
-      
+      this.charimage = charimage;
+      charimage.addEventListener('load', () => {
+        this.charimage = charimage;
+        this.draw();
+      })
+        
   }
-  
 
 }
 
-// Creating the cat Character
 
-const cat =  new Character(200,350,imageOfCharacter);
+// Shooting class for Cat
 
+class Shooter {
+  constructor(){
+    this.x = cat.x + 35;
+    this.y = cat.y + 40; 
+    this.width = 10;
+    this.height = 10;
+    this.power = 20;
+    this.speed = 2;
+   
+  }
 
+  update(){
+    this.x += this.speed;
+  }
+  
+  draw (){ 
+    ctx.fillStlye = 'black';
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.width,0, Math.PI *2);
+    ctx.closePath();
+    ctx.fill();
+  };
+
+  
+}
 
 // Configure the movement of the Cat
 
@@ -105,38 +139,54 @@ document.addEventListener('keydown', e => {
   else if(e.keyCode === 40 && cat.y !== 700){
 
     cat.moveDown();
-  }
+  } else if(e.keyCode === 32){
 
+    shoot.push(new Shooter(10,10));
+   
+    for(let i = 0; i < shoot.length; i++){
+      
+      checker = setInterval(function(){
+        shoot[i].draw();
+        shoot[i].update();
+      
+    }, 2);
+    
+  }
   
+  }
+ 
 });
 
-// Creating the Shooting of the Cat
+
+
+// Creating the cat Character
+
+
+const cat =  new CharCat(200,350,imageOfCharacter);
+const shot = new Shooter(10,10);
 
 
 // Creating the enemy characters 
 
+function creatingEnemy (){
+  for(let i = 0; i < enemy.length; i++){
+    enemy[i].moveRight();
+    enemy[i].draw();
+  
+  }
+  if(frame % 200 === 0){
+    const enemyY = Math.floor(Math.random()*750);
+    enemy.push(new Character(1400,enemyY,enemyPic));
+  }
 
-  const enemyY = Math.floor(Math.random()*750);
-  const enemy = new Character(1400,enemyY,enemyPic);
+  };
+  
 
+  
 
-
-
-
-
-document.addEventListener('keydown', e => {
-
-  if(e.keyCode === 13){
-
-    enemy.speedX = 2;
-     enemy.newPos();
-    
-    }
-    
-  });
- 
 
 
   
+
 
 
