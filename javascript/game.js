@@ -261,7 +261,8 @@ class Aliens extends Character {
     if(this.x === 260){
    
       clearInterval(game);
-      window.alert('Game Over, the aliens won')
+      ctx.font = '25px Arial';
+      ctx.fillText(`Game Over! Your score: ${score}`,650,350);
     } 
      }
 
@@ -293,8 +294,6 @@ function creatingEnemy (){
   });
 
 
-  
-    
     for(let x = 0; x <boss.length ; x++){
       boss[x].moveRight();
       boss[x].drawing();
@@ -303,7 +302,7 @@ function creatingEnemy (){
 
     if(frame % 400 === 0 && score >= 25){
       const bossCreator = Math.floor(Math.random()*745);
-      boss.push(new Aliens(1400,bossCreator,90,90,enemyPic,400));
+      boss.push(new Aliens(1400,bossCreator,100,100,enemyPic,150));
     }
 
 
@@ -341,8 +340,12 @@ function creatingEnemy (){
     case 60:
       const lvl5 = 'Final Fight!';  
     return lvl5;
+
+    case 80:
+      const win = `Excellent! You win! Your score: ${score}`;  
+    return win;
     }
-    
+
   }
 
 
@@ -356,7 +359,6 @@ function creatingEnemy (){
       ctx.font = '55px Arial';
       ctx.fillText(scoreMess(),650,350);
       game = setInterval(updateCanvas, 1000/70);
- 
       break;
       case 25 :
         clearInterval(game);
@@ -364,15 +366,26 @@ function creatingEnemy (){
         ctx.fillText(scoreMess(),650,350);
         game = setInterval(updateCanvas, 1000/70);
         break;
-        case 40 :
-          clearInterval(game);
-          ctx.font = '55px Arial';
-          ctx.fillText(scoreMess(),650,350);
-          game = setInterval(updateCanvas, 1000/70);
+      case 40 :
+        clearInterval(game);
+        ctx.font = '55px Arial';
+        ctx.fillText(scoreMess(),650,350);
+        game = setInterval(updateCanvas, 1000/70);
+        break;
+      case 60:
+        clearInterval(game);
+        ctx.font = '55px Arial';
+        ctx.fillText(scoreMess(),650,350);
+        game = setInterval(updateCanvas, 1000/70);
+        break;
+      case 80:
+        clearInterval(game);
+        ctx.font = '55px Arial';
+        ctx.fillText(scoreMess(),300,350);
+        break;
     }
   }
 
-  
 
 
   // Instances of Classes
