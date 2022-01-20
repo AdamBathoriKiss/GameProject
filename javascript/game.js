@@ -3,18 +3,25 @@ const canvas = document.getElementById('battleArea');
 const ctx = canvas.getContext('2d');
 
 canvas.width = 1400;
-canvas.height = 800;
+canvas.height = 805;
 
 function drawLine(){
 
   ctx.beginPath();
   ctx.moveTo(300,0);
-  ctx.lineTo(300,800);
+  ctx.lineTo(300,806);
   ctx.closePath();
-  ctx.strokeStyle = 'red';
-  ctx.lineWidth = 12;
+  ctx.strokeStyle ='#663300';
+  ctx.lineWidth = 8;
   ctx.stroke();
 }
+
+function drawScore(){
+  ctx.font = '25px Arial';
+  ctx.fillText(`Score: ${score}`,25,40);
+}
+
+
 
 
 // Few global variables 
@@ -23,7 +30,7 @@ let frame = 0;
 let score = 0;
 let enemy = [];
 let shoot = [];
-
+let boss = [];
 
 //Pictures for the Characters
 
@@ -52,12 +59,8 @@ class Character {
         ctx.shadowBlur = 10;
        
       }
-      newPos(){
-       if(this.x !== 260){
-        this.x -= this.speed;
-        }
+     
       
-      }
 }
 
 
@@ -125,7 +128,7 @@ class CharCat extends Character {
       if(this.shootPress){
         
         const speed = 8;
-        const delay = 25;
+        const delay = 7;
         const damage = 20;
         const bulletX = this.x;
         const bulletY = this.y + this.height/2;
@@ -231,11 +234,11 @@ class BulletControl {
 
 class Aliens extends Character {
 
-  constructor(x,y,charimage,health){
+  constructor(x,y,width,height,charimage,health){
     super(x,y,charimage);
     this.health = health;
-    this.width = 90;
-    this.height = 90;
+    this.width = width;
+    this.height = height;
     
   }
 
@@ -244,21 +247,26 @@ class Aliens extends Character {
     ctx.shadowColor = 'black';
     ctx.shadowBlur = 10;
     ctx.font = '25px Arial';
-    ctx.fillText(this.health,this.x+this.width / 2, this.y+this.height+20);
+    ctx.fillText(this.health,this.x + 20, this.y+this.height+20);
    } 
 
    doDamage(damage){
       this.health -= damage;
+      if(this.health === 0){
+        score++;
+      }
    }
 
-   stop(){
+   alienWin(){
+    if(this.x === 260){
+   
+      clearInterval(game);
+      window.alert('Game Over, the aliens won')
+    } 
+     }
 
    }
-}
-
-
-
-
+  
 
 // Creating the enemy characters 
 
@@ -266,23 +274,106 @@ function creatingEnemy (){
   for(let i = 0; i < enemy.length; i++){
     enemy[i].moveRight();
     enemy[i].drawing();
-  
+    enemy[i].alienWin();
+   
   }
-  if(frame % 200 === 0){
-    const enemyY = Math.floor(Math.random()*750);
-    enemy.push(new Aliens(1400,enemyY,enemyPic,100));
+  if(frame % 400 === 0){
+    const enemyY = Math.floor(Math.random()*745);
+    enemy.push(new Aliens(1400,enemyY,90,90,enemyPic,100));
     
   }
-    enemy.forEach((en) => {
-      if(bullMaker.collWith(en)){
-        if(en.health <= 0){
-          const index = enemy.indexOf(en);
-          enemy.splice(index,1);
+
+  enemy.forEach((en) => {
+    if(bullMaker.collWith(en)){
+      if(en.health <= 0){
+        const index = enemy.indexOf(en);
+        enemy.splice(index,1);
+      }
+    }
+  });
+
+
+  
+    
+    for(let x = 0; x <boss.length ; x++){
+      boss[x].moveRight();
+      boss[x].drawing();
+      boss[x].alienWin();
+    }
+
+    if(frame % 400 === 0 && score >= 25){
+      const bossCreator = Math.floor(Math.random()*745);
+      boss.push(new Aliens(1400,bossCreator,90,90,enemyPic,400));
+    }
+
+
+    boss.forEach((bo) => {
+      if(bullMaker.collWith(bo)){
+        if(bo.health <= 0){
+          const index = boss.indexOf(bo);
+          boss.splice(index,1);
         }
       }
     });
-  };
+
   
+
+  };
+
+
+
+  // Level's pop-up message
+
+  function scoreMess() {
+    switch (score){
+    case 10: 
+    const lvl2 = 'Level 2... Fight!';
+    return lvl2;
+    
+    case 25:
+    const lvl3 = 'Level 3... Fight!';  
+    return lvl3;
+    
+    case 40:
+      const lvl4 = 'Level 4... Fight!';  
+    return lvl4;
+
+    case 60:
+      const lvl5 = 'Final Fight!';  
+    return lvl5;
+    }
+    
+  }
+
+
+
+  // Creating the levels for the game
+
+  function levels(){
+    switch (score){
+      case 10 :
+      clearInterval(game);
+      ctx.font = '55px Arial';
+      ctx.fillText(scoreMess(),650,350);
+      game = setInterval(updateCanvas, 1000/70);
+ 
+      break;
+      case 25 :
+        clearInterval(game);
+        ctx.font = '55px Arial';
+        ctx.fillText(scoreMess(),650,350);
+        game = setInterval(updateCanvas, 1000/70);
+        break;
+        case 40 :
+          clearInterval(game);
+          ctx.font = '55px Arial';
+          ctx.fillText(scoreMess(),650,350);
+          game = setInterval(updateCanvas, 1000/70);
+    }
+  }
+
+  
+
 
   // Instances of Classes
 
@@ -294,21 +385,16 @@ const cat =  new CharCat(200,350,imageOfCharacter,bullMaker);
 // Update Canvas function, where we put all the things, what should works dinamically on our page
 
 function updateCanvas() {
-  ctx.clearRect(0, 0, 1400, 800);
+  ctx.clearRect(0, 0, 1400, 806);
   drawLine();
-  bullMaker.draw(ctx);
+  bullMaker.draw(ctx); 
   cat.drawing();
   frame++;
   creatingEnemy ();
-  
+  drawScore();
+  levels();
   
 }
 
 
-setInterval(updateCanvas, 1000/70);
-
-
-  
-
-
-
+let game = setInterval(updateCanvas, 1000/70);
