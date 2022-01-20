@@ -1,28 +1,37 @@
-// Reach the created area of the game, and configure it
+// Reaching the created area of the game, and configure it
 const canvas = document.getElementById('battleArea');
 const ctx = canvas.getContext('2d');
-
-canvas.width = 1400;
+canvas.width = 1600;
 canvas.height = 805;
 
+// Cat's line
 function drawLine(){
 
   ctx.beginPath();
   ctx.moveTo(300,0);
   ctx.lineTo(300,806);
   ctx.closePath();
-  ctx.strokeStyle ='#663300';
+  ctx.strokeStyle ='black';
   ctx.lineWidth = 8;
   ctx.stroke();
 }
 
+// Score drawing
+
 function drawScore(){
   ctx.font = '25px Arial';
-  ctx.fillText(`Score: ${score}`,25,40);
+  ctx.fillText(`Score: ${score}`,20,40);
+  
 }
 
+// Gamestarting method 
 
+const startButton = document.getElementById('startButton');
+startButton.onclick = function () {
 
+  document.getElementById("landingPage").style.zIndex = "0";
+
+}
 
 // Few global variables 
 
@@ -261,8 +270,9 @@ class Aliens extends Character {
     if(this.x === 260){
    
       clearInterval(game);
-      ctx.font = '25px Arial';
-      ctx.fillText(`Game Over! Your score: ${score}`,650,350);
+      ctx.font = '55px Arial';
+      ctx.fillText(`Game Over! Your score: ${score}`,450,350);
+      
     } 
      }
 
@@ -302,7 +312,7 @@ function creatingEnemy (){
 
     if(frame % 400 === 0 && score >= 25){
       const bossCreator = Math.floor(Math.random()*745);
-      boss.push(new Aliens(1400,bossCreator,100,100,enemyPic,150));
+      boss.push(new Aliens(1600,bossCreator,100,100,enemyPic,150));
     }
 
 
@@ -398,7 +408,7 @@ const cat =  new CharCat(200,350,imageOfCharacter,bullMaker);
 // Update Canvas function, where we put all the things, what should works dinamically on our page
 
 function updateCanvas() {
-  ctx.clearRect(0, 0, 1400, 806);
+  ctx.clearRect(0, 0, 1600, 805);
   drawLine();
   bullMaker.draw(ctx); 
   cat.drawing();
@@ -409,5 +419,4 @@ function updateCanvas() {
   
 }
 
-
-let game = setInterval(updateCanvas, 1000/70);
+let game = setInterval(updateCanvas, 1000/ 70);
