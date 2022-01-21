@@ -31,46 +31,7 @@ startButton.onclick = function () {
 
   document.getElementById("landingPage").style.zIndex = "0";
 
-
-  
-// Sound
-
-function backgroundsound(src) {
-  this.sound = document.createElement("audio");
-  this.sound.src = src;
-  this.sound.setAttribute("preload", "auto");
-  this.sound.setAttribute("controls", "none");
-  this.sound.style.display = "none";
-  document.body.appendChild(this.sound);
-  this.play = function(){
-    this.sound.play();
-  }
-  this.stop = function(){
-    this.sound.pause();
-  }
-}
-
-let music = new backgroundsound('mortal.mp3');
-
-  
-// Update Canvas function, where we put all the things, what should works dinamically on our page
-
-function updateCanvas() {
-  ctx.clearRect(0, 0, 1600, 805);
-  drawLine();
-  bullMaker.draw(ctx); 
-  cat.drawing();
-  frame++;
-  creatingEnemy ();
-  drawScore();
-  levels();
-  music.play()
-}
-
-let game = setInterval(updateCanvas, 1000/ 40);
-
-
-
+  music.play();
 }
 
 
@@ -455,3 +416,41 @@ const cat =  new CharCat(200,350,imageOfCharacter,bullMaker);
 
 
 
+
+  
+// Sound
+
+function backgroundsound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  this.sound.setAttribute('muted', 'muted');
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
+
+let music = new backgroundsound('mortal.mp3');
+
+  
+// Update Canvas function, where we put all the things, what should works dinamically on our page
+
+function updateCanvas() {
+  ctx.clearRect(0, 0, 1600, 805);
+  drawLine();
+  bullMaker.draw(ctx); 
+  cat.drawing();
+  frame++;
+  creatingEnemy ();
+  drawScore();
+  levels();
+  
+}
+
+let game = setInterval(updateCanvas, 1000/ 65);

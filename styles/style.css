@@ -3,28 +3,29 @@
     padding: 0;
 }
 
-body{
-    background-image: url('../img/batllearea.jpg');
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 100%;
-    background-size: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 3;
-}
 
 canvas {
     
     border: 1px solid black;
-    margin-top: 4%;
+    margin-top: 15px;
     background-image: url('../img/dojo.jpg'); 
     background-repeat: no-repeat;
     background-size: 100% 100%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     position: relative;
+    z-index: 1;
+  }
+
+  #gameAreaBackground{
+    background-image: url('../img/batllearea.jpg');
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    background-size: 100% 101%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
     z-index: 1;
   }
   
