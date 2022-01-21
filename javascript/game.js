@@ -24,13 +24,16 @@ function drawScore(){
   
 }
 
+let game = setInterval(updateCanvas, 1000/ 65);
+
 // Gamestarting method 
 
 const startButton = document.getElementById('startButton');
 startButton.onclick = function () {
 
   document.getElementById("landingPage").style.zIndex = "0";
-
+  clearInterval(game);
+  game = setInterval(updateCanvas, 1000/ 65);
   music.play();
 }
 
@@ -453,4 +456,4 @@ function updateCanvas() {
   
 }
 
-let game = setInterval(updateCanvas, 1000/ 65);
+
