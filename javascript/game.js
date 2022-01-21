@@ -31,7 +31,51 @@ startButton.onclick = function () {
 
   document.getElementById("landingPage").style.zIndex = "0";
 
+
+  
+// Sound
+
+function backgroundsound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
 }
+
+let music = new backgroundsound('mortal.mp3');
+
+  
+// Update Canvas function, where we put all the things, what should works dinamically on our page
+
+function updateCanvas() {
+  ctx.clearRect(0, 0, 1600, 805);
+  drawLine();
+  bullMaker.draw(ctx); 
+  cat.drawing();
+  frame++;
+  creatingEnemy ();
+  drawScore();
+  levels();
+  music.play()
+}
+
+let game = setInterval(updateCanvas, 1000/ 40);
+
+
+
+}
+
+
+
+
 
 // Few global variables 
 
@@ -48,6 +92,9 @@ imageOfCharacter.src = 'img/ninjacat.png';
 
 const enemyPic = new Image();
 enemyPic.src = 'img/alien.png';
+
+const herring = new Image();
+herring.src = 'img/herringbone.png';
 
 //Create the Character's class, where from able to create the Cat and the Aliens.
 
@@ -167,10 +214,11 @@ class Bullet {
     this.width = 10;
     this.height = 10;
     this.color = 'black';
+   
   }
+  
     draw(ctx){
-
-      ctx.fillStlye = this.color;
+      ctx.fillStyle = 'black';
       this.x += this.speed;
       ctx.fillRect(this.x,this.y,this.width,this.height);
     }
@@ -195,8 +243,10 @@ class Bullet {
 class BulletControl {
   bullets = [];
   delayTimer = 0;
+  
   constructor(canvas) {
     this.canvas = canvas;
+    
   }
 
   shoot(bulletX,bulletY,speed,damage,delay){
@@ -279,7 +329,7 @@ class Aliens extends Character {
    }
   
 
-// Creating the enemy characters 
+// Creating the Aliens 
 
 function creatingEnemy (){
   for(let i = 0; i < enemy.length; i++){
@@ -311,7 +361,7 @@ function creatingEnemy (){
     }
 
     if(frame % 400 === 0 && score >= 25){
-      const bossCreator = Math.floor(Math.random()*745);
+      const bossCreator = Math.floor((Math.random()*745));
       boss.push(new Aliens(1600,bossCreator,100,100,enemyPic,150));
     }
 
@@ -405,18 +455,3 @@ const cat =  new CharCat(200,350,imageOfCharacter,bullMaker);
 
 
 
-// Update Canvas function, where we put all the things, what should works dinamically on our page
-
-function updateCanvas() {
-  ctx.clearRect(0, 0, 1600, 805);
-  drawLine();
-  bullMaker.draw(ctx); 
-  cat.drawing();
-  frame++;
-  creatingEnemy ();
-  drawScore();
-  levels();
-  
-}
-
-let game = setInterval(updateCanvas, 1000/ 70);
