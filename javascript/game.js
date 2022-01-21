@@ -48,6 +48,7 @@ let score = 0;
 let enemy = [];
 let shoot = [];
 let boss = [];
+let testTheGit = 0;
 
 //Pictures for the Characters
 
@@ -371,8 +372,6 @@ function creatingEnemy (){
     }
 
   }
-
-
 
   // Creating the levels for the game
 
