@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cat Vs Aliens</title>
@@ -13,21 +13,9 @@
 
 </head>
 <body>
-    
-    <div id="landingPage" class="container-fluid">
-        <div class="row justify-content-sm-center">
-        <div class="col-sm-6 col-md-4 landMenu">
-            <h1>Welcome to Cat VS Aliens!</h1>
-            <p>In this game you can save the world from <b>Aliens</b> with ninja <b>Cat</b>!
-                It will be not easy, but we beleive in you! Use for the <b>UP</b> and <b>DOWN</b> keys for moving the
-                cat and shoot the aliens with pressing <b>SPACE</b>. If one of the aliens go trough on cat's line,
-                then you lost the game. If you can destroy all of the aliens, that means, you are the new hero! Enjoy the game!
-            </p>
-            <a href="game.html" class="btn btn-danger btn-lg" role="button" id="startButton">Start!</a>
-        </div>
-    </div>
-        
-    </div>
-   
+    <div id="gameAreaBackground" class="container-fluid">
+        <canvas id="battleArea"></canvas>
+       </div>
+        <script src="javascript/game.js"></script>
 </body>
 </html>

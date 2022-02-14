@@ -1,8 +1,9 @@
 // Reaching the created area of the game, and configure it
 const canvas = document.getElementById('battleArea');
+let heightRatio = 2.7;
+canvas.height = canvas.width * heightRatio;
 const ctx = canvas.getContext('2d');
 canvas.width = 1600;
-canvas.height = 805;
 
 // Cat's line
 function drawLine(){
@@ -25,20 +26,6 @@ function drawScore(){
 }
 
 let game = setInterval(updateCanvas, 1000/ 65);
-
-// Gamestarting method 
-
-const startButton = document.getElementById('startButton');
-startButton.onclick = function () {
-
-  document.getElementById("landingPage").style.zIndex = "0";
-  clearInterval(game);
-  game = setInterval(updateCanvas, 1000/ 65);
-  music.play();
-}
-
-
-
 
 
 // Few global variables 
@@ -422,7 +409,7 @@ const cat =  new CharCat(200,350,imageOfCharacter,bullMaker);
   
 // Sound
 
-function backgroundsound(src) {
+/*function backgroundsound(src) {
   this.sound = document.createElement("audio");
   this.sound.src = src;
   this.sound.setAttribute("preload", "auto");
@@ -436,7 +423,7 @@ function backgroundsound(src) {
   this.stop = function(){
     this.sound.pause();
   }
-}
+} */
 
 let music = new backgroundsound('mortal.mp3');
 
