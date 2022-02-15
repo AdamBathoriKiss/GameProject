@@ -25,7 +25,6 @@ function drawScore(){
   
 }
 
-let game = setInterval(updateCanvas, 1000/ 65);
 
 
 // Few global variables 
@@ -47,6 +46,12 @@ enemyPic.src = 'img/alien.png';
 
 const herring = new Image();
 herring.src = 'img/herringbone.png';
+
+const soundOn = new Image();
+soundOn.src = 'img/soundon.jpg';
+
+const soundOff = new Image();
+soundOff.src = 'img/soundoff.jpg';
 
 //Create the Character's class, where from able to create the Cat and the Aliens.
 
@@ -136,7 +141,7 @@ class CharCat extends Character {
       if(this.shootPress){
         
         const speed = 8;
-        const delay = 7;
+        const delay = 12;
         const damage = 20;
         const bulletX = this.x;
         const bulletY = this.y + this.height/2;
@@ -163,16 +168,17 @@ class Bullet {
     this.y = y;
     this.speed = speed;
     this.damage = damage;
-    this.width = 10;
-    this.height = 10;
+    this.bullimage = herring;
+    this.width = 40;
+    this.height = 25;
     this.color = 'black';
    
   }
   
     draw(ctx){
-      ctx.fillStyle = 'black';
+      ctx.drawImage(this.bullimage,this.x, this.y, this.width, this.height);
       this.x += this.speed;
-      ctx.fillRect(this.x,this.y,this.width,this.height);
+    
     }
 
     collWith(sprite){
@@ -404,12 +410,9 @@ const bullMaker = new BulletControl(canvas);
 const cat =  new CharCat(200,350,imageOfCharacter,bullMaker);
 
 
-
-
-  
 // Sound
 
-/*function backgroundsound(src) {
+function backgroundSound(src) {
   this.sound = document.createElement("audio");
   this.sound.src = src;
   this.sound.setAttribute("preload", "auto");
@@ -423,9 +426,9 @@ const cat =  new CharCat(200,350,imageOfCharacter,bullMaker);
   this.stop = function(){
     this.sound.pause();
   }
-} */
+} 
 
-let music = new backgroundsound('mortal.mp3');
+let music = new backgroundSound('mortal.mp3');  
 
   
 // Update Canvas function, where we put all the things, what should works dinamically on our page
@@ -439,7 +442,8 @@ function updateCanvas() {
   creatingEnemy ();
   drawScore();
   levels();
-  
+  music.play();
 }
 
+let game = setInterval(updateCanvas, 1000/ 65);
 
